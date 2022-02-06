@@ -1,4 +1,4 @@
-## Eros blog
+## Eros blog (2011 年舊專案)
 
 ![image](https://raw.githubusercontent.com/alankrantas/Eros_blog/main/Eros_blog/resources/img/eros_banner.jpg?token=GHSAT0AAAAAABHRDDFULPZM75JOYCAAB2HMYP7TMBA)
 
@@ -12,7 +12,7 @@ Eros 是希臘神話的愛神，也是最早發現的近地小行星 (433 Eros) 
 
 ### 功能
 
-目前版本 (v0.1, 2011/09)：
+目前版本 v0.1 (2011/09)：
 
 * 登入 / 登出
 * 註冊 / 修改使用者資料
