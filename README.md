@@ -1,13 +1,14 @@
 ## Eros blog
 
+![image](https://raw.githubusercontent.com/alankrantas/Eros_blog/main/Eros_blog/resources/img/eros_banner.jpg?token=GHSAT0AAAAAABHRDDFULPZM75JOYCAAB2HMYP7TMBA)
+
 **Eros blog** 是個以 Java 2 Enterprise Edition (J2EE) 相關技術開發的簡易部落格系統，屬於個人練習之無營利專案，其目的是傳寫一個擁有基本功能，並且較易安裝自用的專案，可給多人使用。部落格和單篇文章都可以用瀏覽器書籤記錄位置，而這個系統的特色 (及簡化) 之一是可以用文章回覆文章，沒有正式的留言。此外文章版面設計上比較適合寫書評之類的專業文章。
 
 Eros 是希臘神話的愛神，也是最早發現的近地小行星 (433 Eros) 的名稱。
 
 本專案整合了 JavaServer Faces (JSF) 2 和 Spring 3 DAO 的使用，而這兩個都盡量使用 annotation 的方式來設定。
 
-> 註：本專案原置於 [Google Code](https://code.google.com/archive/p/eros-java-blog/) 但已遭刪除。2011 年秋，我第一份工作 (研發替代役) 即將結束時，決定拿當時自學的技術寫一個自己的專案，而這就是當時的成果。
-> 當時我的公司只用過 JSF 1，而且共用的 XML 設定檔常常很難管理。那時我發現使用 annotation 可以大幅減少對 XML 的依賴。當然單體式 Java 網站如今已經褪流行，因此這個 repo 只是要作為紀念而已。
+> 註：本專案原置於 [Google Code](https://code.google.com/archive/p/eros-java-blog/) 但已遭刪除。2011 年秋，我第一份工作 (研發替代役) 即將結束時，決定拿當時自學的技術寫一個自己的專案，而這就是當時的成果。當時我的公司只用過 JSF 1，而且共用的 XML 設定檔常常很難管理。那時我發現使用 annotation 可以大幅減少對 XML 的依賴。當然單體式 Java 網站如今已經褪流行，因此這個 repo 只是要作為紀念而已。
 
 ### 功能
 
