@@ -1,0 +1,211 @@
+@CHARSET "UTF-8";
+/* Eros blog CSS 範本 */
+
+/* 網頁本身 */
+body {
+	background-color: #ddddcc;
+	font-size: 14px;
+	color: #000000;
+}
+
+/* 超連結 */
+a:link {
+	color: #226078;
+}
+
+a:visited {
+	color: #024c68;
+}
+
+a:hover {
+	color: #62b1d0;
+}
+
+a:active {
+	color: #ffffff;
+}
+
+/* 登入欄標題 */
+.erosTitle {
+	font-size: 16px;
+	font-weight: bold;
+	color: #000000;
+}
+
+/* 大標題 */
+.bigTitle {
+	font-size: 20px;
+	font-weight: bold;
+	color: #000000;
+}
+
+/* 中標題 */
+.middleTitle {
+	font-size: 18px;
+	font-weight: bold;
+	color: #111111;
+}
+
+/* 小標題 */
+.smallTitle {
+	font-size: 16px;
+	font-weight: bold;
+	color: #222222;
+}
+
+/* 使用者名稱 */
+.userNameText {
+	font-weight: bold;
+}
+
+/* 較大字體 */
+.largerText {
+	font-size: 16px;
+}
+
+/* 較小字體 */
+.smallerText {
+	font-size: 12px;
+}
+
+/* 較小灰字體 */
+.smallerTextGrey {
+	font-size: 12px;
+	color: #888888;
+}
+
+/* 部落格橫幅圖片 */
+.blogPic {
+	max-width: 800px;
+	max-height: 400px;
+}
+
+/* 文章圖片 */
+.contentPic {
+	max-width: 500px;
+	max-height: 500px;
+}
+
+/* 使用者圖像 */
+.userPic {
+	max-width: 120px;
+	max-height: 120px;
+}
+
+/* 登入列 */
+table.loginTable {
+	background-color: #aaaaaa;
+	width: 100%;
+	padding: 2px 2px 2px 2px;
+}
+
+table.loginTable tr {
+	
+}
+
+table.loginTable td {
+	
+}
+
+/* 部落格主體 */
+table.blogTable {
+	width: 800px;
+	padding: 0px;
+}
+
+table.blogTable tr {
+	
+}
+
+table.blogTable td {
+	
+}
+
+/* 文章頁主體 */
+table.blogTableRead {
+	width: 600px;
+	padding: 0px;
+}
+
+table.blogTable tr {
+	
+}
+
+table.blogTable td {
+	
+}
+
+/* 部落格和文章頁瀏覽區 */
+table.browseTable {
+	background-color: #ffffdd;
+	width: 600px;
+	padding: 2px 3px 2px 5px;
+}
+
+table.browseTable tr {
+	
+}
+
+table.browseTable td {
+	
+}
+
+/* 文章列表和回覆列表主體 */
+table.listTable {
+	background-color: #eeeeee;
+	width: 100%;
+	padding: 2px 2px 2px 2px;
+}
+
+table.listTable tr {
+	
+}
+
+table.listTable td {
+	
+}
+
+/* 文章列表和回覆列表項目 */
+table.contentTable {
+	background-color: #eeddbb;
+	width: 100%;
+	padding: 2px 2px 2px 3px;
+}
+
+table.contentTable tr {
+	
+}
+
+table.contentTable td {
+	
+}
+
+/* 使用者資訊區 - 部落格 */
+table.sideTable {
+	background-color: #ddccbb;
+	width: 200px;
+	padding: 2px 3px 2px 5px;
+}
+
+table.sideTable tr {
+	
+}
+
+table.sideTable td {
+	
+}
+
+/* 使用者資訊區 - 文章 */
+table.sideTableRead {
+	background-color: #ddccbb;
+	width: 600px;
+	padding: 2px 10px 2px 20px;
+}
+
+table.sideTableRead tr {
+	
+}
+
+table.sideTableRead td {
+	
+}

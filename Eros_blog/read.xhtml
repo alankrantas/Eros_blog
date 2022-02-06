@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<f:view contentType="text/html">
+	<f:metadata>
+		<f:viewParam name="content" value="#{readBean.contentReadId}" />
+	</f:metadata>
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>-- Eros blog -- 閱讀文章</title>
+		<script type="text/javascript">
+			function setTitle() {
+				if (document.getElementById("contentTitle") != null) {
+					document.title = "-- Eros blog -- 閱讀文章:  "
+							+ document.getElementById("contentTitle").innerHTML;
+				} else {
+					document.title = "-- Eros blog -- 閱讀文章: 查無文章";
+				}
+			}
+			function deleteContent(id) {
+				if (confirm("確定刪除文章？")) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			function getUrl() {
+				var returnpath = window.location.pathname.replace("/Eros_blog/", "").replace(".xhtml", "") + window.location.search;
+				document.getElementById("originalUrl").value = returnpath;
+			}
+		</script>
+	</h:head>
+	<h:body onload="setTitle();">
+		<h:form id="readForm" prependId="false">
+			<h:outputStylesheet library="css" name="#{readBean.init}"
+				target="head" />
+			<center>
+				<table class="loginTable">
+					<tr valign="top">
+						<td align="left"><h:outputText value="-- Eros blog --"
+								styleClass="erosTitle" /> <h:inputHidden id="originalUrl"
+								value="#{loginBean.originalUrl}" /></td>
+						<h:panelGroup rendered="#{!readBean.hadLogin}">
+							<td align="right"><h:commandLink value="登入" action="index"
+									onclick="getUrl();">
+									<f:param name="faces-redirect" value="true" />
+								</h:commandLink> &#160; <h:link value="註冊帳號" outcome="user_account">
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:link value="首頁" outcome="index">
+									<f:param name="faces-redirect" value="true" />
+								</h:link></td>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{readBean.hadLogin}">
+							<td align="right"><h:outputText
+									value="使用者: #{readBean.browseUserId}" /> &#160; <h:link
+									value="部落格" outcome="blog">
+									<f:param name="author" value="#{readBean.browseUserId}" />
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:commandLink value="登出" action="index"
+									onclick="getUrl();">
+									<f:param name="faces-redirect" value="true" />
+								</h:commandLink> &#160; <h:link value="修改帳號" outcome="user_account">
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:link value="首頁" outcome="index">
+									<f:param name="faces-redirect" value="true" />
+								</h:link></td>
+						</h:panelGroup>
+					</tr>
+				</table>
+				<table class="blogTableRead">
+					<tr valign="top">
+						<td colspan="2" align="center"><p:messages id="msgs" showDetail="true" /></td>
+					</tr>
+					<h:panelGroup rendered="#{readBean.hasContent}">
+						<tr>
+							<td>
+								<table class="sideTableRead">
+									<tr>
+										<td colspan="2"><br />
+										</td>
+									</tr>
+									<tr valign="bottom">
+										<td align="left"><h:graphicImage
+												value="#{readBean.author.pic}"
+												rendered="#{readBean.hasUserPic}" styleClass="userPic" /> <h:graphicImage
+												library="img" name="eros_user.jpg"
+												rendered="#{!readBean.hasUserPic}" styleClass="userPic" />
+										</td>
+										<td align="right"><h:link
+												value="#{readBean.author.blogTitle}" outcome="blog"
+												styleClass="smallTitle">
+												<f:param name="author" value="#{readBean.content.authorId}" />
+												<f:param name="faces-redirect" value="true" />
+											</h:link> <br /> <br /> <h:outputText
+												value="#{readBean.content.author}" styleClass="userNameText" />
+											&#160; <h:outputText value="(#{readBean.content.authorId})" />
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2"><br />
+										</td>
+									</tr>
+								</table>
+								<table class="browseTable">
+									<tr>
+										<td colspan="2"><br />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2" align="left"><h:outputText value="發表於: "
+												styleClass="smallerText" /> <h:outputText
+												value="#{readBean.content.date}" styleClass="smallerText">
+												<f:convertDateTime pattern="yyyy/MM/d hh:mm:ss"
+													timeZone="#{loginBean.timeZoneData}" />
+											</h:outputText>
+										</td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2" align="left"><h:outputText
+												id="contentTitle" value="#{readBean.content.title}"
+												styleClass="middleTitle" />
+										</td>
+									</tr>
+									<h:panelGroup rendered="#{readBean.hasRepliedContent}">
+										<tr valign="top">
+											<td colspan="2" align="left"><h:outputText
+													value="本文回應了: " styleClass="smallerTextGrey" /> <h:link
+													value="#{readBean.repliedContent.title}" outcome="read"
+													styleClass="smallerTextGrey">
+													<f:param name="content"
+														value="#{readBean.repliedContent.id}" />
+													<f:param name="faces-redirect" value="true" />
+												</h:link> <h:outputText
+													value=" (作者: #{readBean.repliedContent.author})"
+													styleClass="smallerTextGrey" /></td>
+										</tr>
+									</h:panelGroup>
+									<tr>
+										<td colspan="2"><br /></td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2" align="center"><h:graphicImage
+												value="#{readBean.content.pic}"
+												rendered="#{readBean.hasPic}" styleClass="contentPic" /><br />
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2"><br /></td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2" align="left"><h:outputText
+												value="#{readBean.content.body}" escape="false" />
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2"><br /></td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2" align="right"><h:outputText
+												value="最後修改於: " styleClass="smallerTextGrey" /> <h:outputText
+												value="#{readBean.content.lastmodify_date}"
+												styleClass="smallerTextGrey">
+												<f:convertDateTime pattern="yyyy/MM/d hh:mm:ss"
+													timeZone="#{loginBean.timeZoneData}" />
+											</h:outputText> <h:panelGroup rendered="#{readBean.editable}">
+												<br />
+												<br />
+												<h:commandButton value="編輯" action="#{readBean.editContent}" />
+												<h:commandButton value="刪除"
+													action="#{readBean.deleteContent}"
+													onclick="return deleteContent();">
+												</h:commandButton>
+												<br />
+												<br />
+												<h:outputLink
+													value="HTMLContent?content=#{readBean.content.id}"
+													target="_blank">
+													<h:outputText value="匯出 html 版" />
+												</h:outputLink>
+											</h:panelGroup>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2"><br />
+											<hr /> <br /></td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:outputText
+												value="對本文章的回應 (#{readBean.content.replyNum})" /></td>
+										<td align="right"><h:commandButton value="發表回應"
+												action="#{readBean.replyContent}"
+												rendered="#{readBean.hadLogin}" />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2" align="left"><h:dataTable
+												id="replyContentsList" value="#{readBean.replyContents}"
+												var="item" styleClass="listTable">
+												<h:column>
+													<table class="contentTable">
+														<tr valign="top">
+															<td align="left"><h:link value="#{item.title}"
+																	outcome="read" styleClass="smallTitle">
+																	<f:param name="content" value="#{item.id}" />
+																	<f:param name="faces-redirect" value="true" />
+																</h:link></td>
+														</tr>
+														<tr valign="top">
+															<td align="right"><h:outputText value="" /> <h:outputText
+																	value="由 #{item.author} 發表於 " styleClass="smallerText" />
+																<h:outputText value="" /> &#160; <h:outputText
+																	value="#{item.date}" styleClass="smallerText">
+																	<f:convertDateTime pattern="yyyy/MM/d hh:mm:ss"
+																		timeZone="#{loginBean.timeZoneData}" />
+																</h:outputText></td>
+														</tr>
+													</table>
+												</h:column>
+											</h:dataTable>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</h:panelGroup>
+				</table>
+			</center>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

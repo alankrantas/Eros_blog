@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>-- Eros blog -- 首頁</title>
+	</h:head>
+	<h:body>
+		<h:form id="indexForm" prependId="false">
+			<h:outputStylesheet library="css" name="#{loginBean.init}"
+				target="head" />
+			<center>
+				<table width="800">
+					<tr valign="top">
+						<td><br /> <br />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><h:graphicImage library="img"
+								name="eros.jpg" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td><br /> <br />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="center">
+							<table width="600">
+								<tr valign="top">
+									<td align="left">
+										<p>
+											<h:outputText
+												value="&lt;b&gt;&lt;u&gt;Eros（愛神）&lt;/u&gt;&lt;/b&gt;: (n.)"
+												escape="false" styleClass="largerText" />
+										</p>
+										<p>
+											<h:outputText
+												value="&lt;b&gt;1.&lt;/b&gt; &lt;b&gt;&lt;i&gt;厄洛斯&lt;/i&gt;&lt;/b&gt;（古希臘文  Ἔρως, 「親密之愛」），希臘神話中代表性、愛情與美的原始神祉，同時也是生育之神，相當於羅馬神話的丘比特（慾望）。"
+												escape="false" styleClass="smallerText" />
+										</p>
+										<p>
+											<h:outputText
+												value="&lt;b&gt;2.&lt;/b&gt; &lt;b&gt;&lt;i&gt;433 Eros&lt;/i&gt;&lt;/b&gt;，於 1898 年最早發現的近地小行星（NEA），也是 NEA 當中第二大的，大小為 34.4×11.2×11.2 km，隸屬於阿莫爾型小行星。"
+												escape="false" styleClass="smallerText" />
+										</p>
+									</td>
+								</tr>
+							</table></td>
+					</tr>
+					<tr valign="top">
+						<td><br />
+							<hr /> <br />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><p:messages id="msgs" showDetail="true" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><h:panelGroup id="loginFunction">
+								<h:panelGroup rendered="#{!loginBean.hadLogin}">
+									<h:commandLink value="登入" styleClass="smallTitle">
+										<f:setPropertyActionListener
+											target="#{loginBean.switchLoginPanel}" value="true" />
+										<f:ajax render="loginArea msgs" />
+									</h:commandLink>
+							 &#160;
+							<h:link value="註冊帳號" outcome="user_account"
+										styleClass="smallTitle">
+										<f:param name="faces-redirect" value="true" />
+									</h:link>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{loginBean.hadLogin}">
+									<h:commandLink value="登出" styleClass="smallTitle"
+										action="#{loginBean.logout}">
+										<f:ajax render="loginFunction loginArea msgs" />
+									</h:commandLink>
+							 &#160;
+							<h:link value="修改帳號" outcome="user_account"
+										styleClass="smallTitle">
+										<f:param name="faces-redirect" value="true" />
+									</h:link>
+									<br />
+									<br />
+									<h:outputText value="使用者: #{loginBean.loginUser.id}"
+										styleClass="largerText" /> &#160;
+									<h:link value="部落格" outcome="blog" styleClass="largerText">
+										<f:param name="author" value="#{loginBean.loginUser.id}" />
+										<f:param name="faces-redirect" value="true" />
+									</h:link>
+								</h:panelGroup>
+							</h:panelGroup>
+						</td>
+					</tr>
+					<tr>
+						<td><br /></td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><h:panelGroup id="loginArea">
+								<h:panelGroup rendered="#{loginBean.switchLoginPanel}">
+									<table>
+										<tr valign="top">
+											<td align="right"><h:outputText value="帳號: " />
+											</td>
+											<td align="left"><h:inputText id="accountId"
+													value="#{loginBean.loginUser.id}" size="19" maxlength="20" />
+											</td>
+										</tr>
+										<tr valign="top">
+											<td align="right"><h:outputText value="密碼: " />
+											</td>
+											<td align="left"><h:inputSecret id="accountPw"
+													value="#{loginBean.loginUser.pw}" size="20" maxlength="20" />
+											</td>
+										</tr>
+										<tr valign="top">
+											<td colspan="2" align="center"><h:commandButton
+													value="送出" action="#{loginBean.login}">
+													<f:ajax render="loginFunction loginArea msgs"
+														execute="accountId accountPw" />
+												</h:commandButton>
+											</td>
+										</tr>
+									</table>
+								</h:panelGroup>
+							</h:panelGroup>
+						</td>
+					</tr>
+					<tr valign="top">
+						<td><br /> <br />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:outputText
+								value="'Those whom we're using cannot think. They are the dead, brought to a simulated life by our electrode guns. You know, it's an interesting thing when you consider: the Earth people, who can think, are so frightened by those who cannot — the dead.'" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="right"><h:outputText
+								value="-- by Eros from &lt;i&gt;Plan 9 from Outer Space&lt;/i&gt;"
+								escape="false" styleClass="smallerText" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td><br />
+						<br />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><h:outputText
+								value="Eros blog, Alan Krantas (2011), all right reserved"
+								styleClass="smallerTextGrey" /></td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><h:outputLink
+								value="http://code.google.com/p/eros-java-blog/" target="_blank">
+								<h:outputText value="Eros blog on Google Project"
+									styleClass="smallerTextGrey" />
+							</h:outputLink></td>
+					</tr>
+				</table>
+			</center>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

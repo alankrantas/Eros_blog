@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<f:view contentType="text/html">
+	<f:metadata>
+		<f:viewParam name="author" value="#{blogBean.authorReadId}" />
+	</f:metadata>
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>-- Eros blog -- 使用者帳號</title>
+		<script type="text/javascript">
+			function setTitle() {
+				if (document.getElementById("displayHeader") != null) {
+					document.title = "-- Eros blog -- 使用者帳號: "
+							+ document.getElementById("displayHeader").innerHTML;
+				} else {
+					document.title = "-- Eros blog -- 使用者帳號: 申請";
+				}
+			}
+			function getUrl() {
+				var returnpath = window.location.pathname.replace(
+						"/Eros_blog/", "").replace(".xhtml", "")
+						+ window.location.search;
+				document.getElementById("originalUrl").value = returnpath;
+			}
+		</script>
+	</h:head>
+	<h:body onload="setTitle()">
+		<h:form id="userAccountForm" prependId="false">
+			<h:outputStylesheet library="css" name="#{userAccountBean.init}"
+				target="head" />
+			<center>
+				<table class="loginTable">
+					<tr valign="top">
+						<td align="left"><h:outputText value="-- Eros blog --"
+								styleClass="erosTitle" /> <h:inputHidden id="originalUrl"
+								value="#{loginBean.originalUrl}" /></td>
+						<h:panelGroup rendered="#{!userAccountBean.hadLogin}">
+							<td align="right"><h:commandLink value="登入" action="index"
+									onclick="getUrl();">
+									<f:param name="faces-redirect" value="true" />
+								</h:commandLink> &#160; <h:link value="首頁" outcome="index">
+									<f:param name="faces-redirect" value="true" />
+								</h:link>
+							</td>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{userAccountBean.hadLogin}">
+							<td align="right"><h:outputText
+									value="使用者:  #{userAccountBean.browseUserId}" /> &#160; <h:link
+									value="部落格" outcome="blog">
+									<f:param name="author" value="#{userAccountBean.browseUserId}" />
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:commandLink value="登出" action="index"
+									onclick="getUrl();">
+									<f:param name="faces-redirect" value="true" />
+								</h:commandLink> &#160; <h:link value="首頁" outcome="index">
+									<f:param name="faces-redirect" value="true" />
+								</h:link>
+							</td>
+						</h:panelGroup>
+					</tr>
+				</table>
+				<table width="400">
+					<tr>
+						<td><br />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><h:outputText id="displayHeader"
+								value="#{userAccountBean.displayHeader}"
+								styleClass="middleTitle" /><br /> <h:outputText
+								value="若想申請新帳號，請先登出" rendered="#{!userAccountBean.hadLogin}"
+								styleClass="smallerText" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><h:outputText
+								value="若您不指定個人圖像、部落格橫幅、CSS 檔，系統將使用預設設定"
+								rendered="#{userAccountBean.hadLogin}" styleClass="smallerText" />
+							<h:outputText value="帳號申請後，您可以重新編輯個人資料，並上傳個人圖像、部落格橫幅、CSS 檔"
+								rendered="#{!userAccountBean.hadLogin}" styleClass="smallerText" />
+							<br /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><br />
+							<hr /> <br /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:outputText
+								value="使用者帳號※ (不分大小寫, 限英數, 20 字內)" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:inputText id="userAccount"
+								value="#{userAccountBean.user.id}" size="15" maxlength="20"
+								disabled="#{userAccountBean.hadLogin}" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:outputText
+								value="使用者密碼※ (不分大小寫, 限英數, 20 字內)" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><p:password id="pw"
+								value="#{userAccountBean.user.pw}"
+								style="width: 150px; height: 15px;" maxlength="20" /></td>
+					</tr>
+					<h:panelGroup rendered="#{!userAccountBean.hadLogin}">
+						<tr valign="top">
+							<td align="left"><h:outputText value="申請帳號請重覆輸入密碼" /></td>
+						</tr>
+						<tr valign="top">
+							<td align="left"><p:password id="comparePw"
+									value="#{userAccountBean.comparePw}"
+									style="width: 150px; height: 15px;" maxlength="20" /></td>
+						</tr>
+					</h:panelGroup>
+					<tr valign="top">
+						<td align="left"><h:outputText
+								value="使用者暱稱※ (您顯示在本站的名稱, 50 字內)" /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:inputText id="name"
+								value="#{userAccountBean.user.name}" size="40" maxlength="50" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:outputText value="使用者介紹 (200 字內)" /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:inputTextarea id="description"
+								value="#{userAccountBean.user.description}" cols="50" rows="4"
+								maxlength="200" /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:outputText
+								value="電子郵件 (通知回應和讓曉得您信箱的人搜尋您, 50字內)" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:outputText value="若您有填寫電子郵件，註冊後將會收到系統信件"
+								styleClass="smallerText" /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:inputText id="email"
+								value="#{userAccountBean.user.email}" size="30" maxlength="50" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:outputText value="部落格標題※ (50 字內)" /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:inputText id="blogTitle"
+								value="#{userAccountBean.user.blogTitle}" size="40"
+								maxlength="50" /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><br />
+							<hr /> <br /></td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:outputText value="使用者個人圖片 (路徑)" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:inputText id="pic"
+								value="#{userAccountBean.user.pic}" size="40" maxlength="255" />
+						</td>
+					</tr>
+					<h:panelGroup rendered="#{userAccountBean.hadLogin}">
+						<tr valign="top">
+							<td align="left">
+								<table>
+									<tr valign="top">
+										<td align="center"><p:fileUpload
+												fileUploadListener="#{userAccountBean.uploadUserPic}"
+												allowTypes="*.jpg;*.png;*.gif"
+												description="選擇個人圖像 (*.jpg;*.png;*.gif)" sizeLimit="51200"
+												update="pic" />
+										</td>
+									</tr>
+								</table></td>
+						</tr>
+					</h:panelGroup>
+					<tr valign="top">
+						<td align="left"><h:outputText value="部落格首頁橫幅 (路徑)" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="left"><h:inputText id="blogPic"
+								value="#{userAccountBean.user.blogPic}" size="40"
+								maxlength="255" />
+						</td>
+					</tr>
+					<h:panelGroup rendered="#{userAccountBean.hadLogin}">
+						<tr valign="top">
+							<td align="left">
+								<table>
+									<tr valign="top">
+										<td align="center"><p:fileUpload
+												fileUploadListener="#{userAccountBean.uploadBlogPic}"
+												allowTypes="*.jpg;*.png;*.gif"
+												description="選擇部落格橫幅 (*.jpg;*.png;*.gif)" sizeLimit="1024000"
+												update="blogPic" />
+										</td>
+									</tr>
+								</table></td>
+						</tr>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{userAccountBean.hadLogin}">
+						<tr valign="top">
+							<td align="left"><h:outputText value="CSS 檔名" />
+							</td>
+						</tr>
+						<tr valign="top">
+							<td align="left"><h:inputText id="cssFile"
+									value="#{userAccountBean.user.cssFile}" size="20"
+									maxlength="25" /> &#160; <h:commandButton value="下載 CSS 範本">
+									<p:fileDownload value="#{userAccountBean.downloadFile}" />
+								</h:commandButton></td>
+						</tr>
+						<tr valign="top">
+							<td align="left">
+								<table>
+									<tr valign="top">
+										<td align="center"><p:fileUpload
+												fileUploadListener="#{userAccountBean.uploadCSS}"
+												allowTypes="*.css" description="選擇 CSS 檔 (*.css)"
+												sizeLimit="5120" update="cssFile" />
+										</td>
+									</tr>
+								</table></td>
+						</tr>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{userAccountBean.asManager}">
+						<tr valign="top">
+							<td align="left"><br />
+								<hr /> <br /></td>
+						</tr>
+						<tr valign="top">
+							<td align="left">
+								<table width="100%" class="contentTable">
+									<tr valign="top">
+										<td align="center"><h:outputText value="管理員專區"
+												styleClass="smallTitle" /></td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:outputText
+												value="您必須申請一個電子郵件，並提供正確的密碼和 SMTP 伺服器資訊，好提供系統發送通知信件給使用者"
+												styleClass="smallerText" /><br /> <br />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:outputText value="電子郵件密碼" />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><p:password id="emailPw"
+												value="#{userAccountBean.manager.email_pw}"
+												style="width: 150px; height: 15px;" /></td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:outputText
+												value="信箱 SMTP 伺服器位址 (例: Gmail 為 smtp.gmail.com)" /></td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:inputText id="smtpServer"
+												value="#{userAccountBean.manager.smtpServer}" size="20"
+												maxlength="50" /></td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:outputText
+												value="信箱 SMTP 伺服器埠 (例: Gmail 為 587)" /></td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:inputText id="smtpServerPort"
+												value="#{userAccountBean.manager.smtpServer_port}" size="5"
+												maxlength="3" /></td>
+									</tr>
+								</table></td>
+						</tr>
+					</h:panelGroup>
+					<tr valign="top">
+						<td align="left"><br />
+							<hr /> <br /></td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><p:messages id="msgs" showDetail="true" />
+						</td>
+					</tr>
+					<tr valign="top">
+						<td align="center"><h:commandButton value="送出"
+								action="#{userAccountBean.submitUser}">
+								<f:ajax render="msgs"
+									execute="userAccount pw comparePw name description email pic blogTitle blogPic cssFile emailPw smtpServer smtpServerPort" />
+							</h:commandButton>
+						</td>
+					</tr>
+				</table>
+			</center>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

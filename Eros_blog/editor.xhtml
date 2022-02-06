@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<f:view contentType="text/html">
+	<f:metadata>
+		<f:viewParam name="content" value="#{editorBean.contentEditId}" />
+		<f:viewParam name="reply" value="#{editorBean.replyEditId}" />
+	</f:metadata>
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>-- Eros blog -- 文章編輯器</title>
+		<script type="text/javascript">
+			function getUrl() {
+				var returnpath = window.location.pathname.replace(
+						"/Eros_blog/", "").replace(".xhtml", "")
+						+ window.location.search;
+				document.getElementById("originalUrl").value = returnpath;
+			}
+		</script>
+	</h:head>
+	<h:body>
+		<h:form id="editorForm" prependId="false">
+			<h:outputStylesheet library="css" name="#{editorBean.init}"
+				target="head" />
+			<center>
+				<table width="100%" class="loginTable">
+					<tr valign="top">
+						<td align="left"><h:outputText value="-- Eros blog --"
+								styleClass="erosTitle" /> <h:inputHidden id="originalUrl"
+								value="#{loginBean.originalUrl}" />
+						</td>
+						<h:panelGroup rendered="#{!editorBean.hadLogin}">
+							<td align="right"><h:commandLink value="登入" action="index"
+									onclick="getUrl();">
+									<f:param name="faces-redirect" value="true" />
+								</h:commandLink> &#160; <h:link value="註冊帳號" outcome="user_account">
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:link value="首頁" outcome="index">
+									<f:param name="faces-redirect" value="true" />
+								</h:link></td>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{editorBean.hadLogin}">
+							<td align="right"><h:outputText
+									value="使用者: #{editorBean.authorId}" /> &#160; <h:link
+									value="部落格" outcome="blog">
+									<f:param name="author" value="#{editorBean.authorId}" />
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:commandLink value="登出" action="index"
+									onclick="getUrl();">
+									<f:param name="faces-redirect" value="true" />
+								</h:commandLink> &#160; <h:link value="修改帳號" outcome="user_account">
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:link value="首頁" outcome="index">
+									<f:param name="faces-redirect" value="true" />
+								</h:link></td>
+						</h:panelGroup>
+					</tr>
+				</table>
+				<h:panelGroup rendered="#{editorBean.hadLogin}">
+					<table width="600">
+						<tr valign="top">
+							<td><br /></td>
+						</tr>
+						<tr valign="top">
+							<td colspan="2" align="left"><h:outputText
+									value="標題※ (100 字內)" /></td>
+						</tr>
+						<tr valign="top">
+							<td colspan="2" align="left"><h:inputText id="title"
+									value="#{editorBean.content.title}" size="95" maxlength="100" />
+							</td>
+						</tr>
+						<tr valign="top">
+							<td><br /></td>
+						</tr>
+						<tr valign="top">
+							<td colspan="2" align="left"><h:outputText value="回覆文章編號: " />
+								<h:inputText id="reply_id"
+									value="#{editorBean.content.reply_id}" size="18" maxlength="20">
+									<f:ajax event="blur"
+										listener="#{editorBean.queryRepliedContent}"
+										render="repliedContent title msgs" execute="@this" />
+								</h:inputText> &#160; <h:selectBooleanCheckbox id="setReplyOnly"
+									value="#{editorBean.content.replyOnly}" /> <h:outputText
+									value="設定本文為回覆專用" />
+							</td>
+						</tr>
+						<tr valign="top">
+							<td colspan="2" align="left"><h:panelGroup
+									id="repliedContent">
+									<h:panelGroup rendered="#{editorBean.hasRepliedContent}">
+										<table width="600">
+											<tr valign="top">
+												<td align="left"><h:outputText value="回覆文章: "
+														styleClass="smallerTextGrey" /> <h:link
+														value="#{editorBean.repliedContent.title}" outcome="read"
+														target="_blank" styleClass="smallerTextGrey">
+														<f:param name="content"
+															value="#{editBean.repliedContent.id}" />
+														<f:param name="faces-redirect" value="true" />
+													</h:link> &#160; <h:outputText
+														value="(#{editorBean.repliedContent.author})"
+														styleClass="smallerTextGrey" />
+												</td>
+											</tr>
+										</table>
+									</h:panelGroup>
+								</h:panelGroup></td>
+						</tr>
+						<tr valign="top">
+							<td><br /></td>
+						</tr>
+						<tr valign="top">
+							<td colspan="2" align="left"><h:outputText value="插圖 (路徑)" />
+							</td>
+						</tr>
+						<tr valign="top">
+							<td colspan="2" align="left"><h:inputText id="pic"
+									value="#{editorBean.content.pic}" size="95" maxlength="255" />
+							</td>
+						</tr>
+						<tr valign="top">
+							<td colspan="2" align="left">
+								<table>
+									<tr valign="top">
+										<td align="center"><p:fileUpload
+												fileUploadListener="#{editorBean.uploadContentPic}"
+												allowTypes="*.jpg;*.png;*.gif" description="選擇文章插圖 (*.jpg;*.png;*.gif)"
+												sizeLimit="512000" update="pic" />
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr valign="top">
+							<td align="left"><h:outputText value="內文" />
+							</td>
+							<td align="right"><h:selectBooleanCheckbox id="editorSwitch"
+									value="#{editorBean.normalEditorMode}">
+									<f:ajax render="body" execute="editorSwitch body1 body2" />
+								</h:selectBooleanCheckbox> <h:outputText value="切換 html/純文字編輯器" />
+							</td>
+						</tr>
+						<tr valign="top">
+							<td colspan="2" align="left"><h:panelGroup id="body">
+									<h:panelGroup rendered="#{editorBean.normalEditorMode}">
+										<p:editor id="body1" value="#{editorBean.content.body}"
+											width="600" height="400" />
+									</h:panelGroup>
+									<h:panelGroup rendered="#{!editorBean.normalEditorMode}">
+										<h:inputTextarea id="body2" value="#{editorBean.content.body}"
+											style="width: 600px; height: 400px;" />
+									</h:panelGroup>
+								</h:panelGroup></td>
+						</tr>
+						<tr valign="top">
+							<td align="left"><h:commandButton value="開新文章"
+									action="#{editorBean.newContent}" /></td>
+							<td align="right"><h:panelGroup id="readContent">
+									<h:commandButton value="閱讀本文"
+										action="#{editorBean.readContent}"
+										rendered="#{editorBean.hasSavedContent}" />
+								</h:panelGroup> <h:commandButton id="submit" value="#{editorBean.submitText}"
+									action="#{editorBean.submitContent}">
+									<f:ajax execute="title body1 body2 reply_id setReplyOnly pic"
+										render="submit readContent msgs" />
+								</h:commandButton></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+				<table width="600">
+					<tr valign="top">
+						<td align="center"><p:messages id="msgs" showDetail="true" />
+						</td>
+					</tr>
+				</table>
+			</center>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

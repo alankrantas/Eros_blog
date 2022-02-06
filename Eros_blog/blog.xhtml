@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<f:view contentType="text/html">
+	<f:metadata>
+		<f:viewParam name="author" value="#{blogBean.authorReadId}" />
+	</f:metadata>
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>-- Eros blog -- 部落格</title>
+		<script type="text/javascript">
+			function setTitle() {
+				if (document.getElementById("blogTitle") != null) {
+					document.title = "-- Eros blog -- 部落格: "
+							+ document.getElementById("blogTitle").innerHTML;
+				} else {
+					document.title = "-- Eros blog -- 部落格: 查無部落格";
+				}
+			}
+			function deleteContent(id) {
+				if (confirm("確定刪除文章？")) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			function getUrl() {
+				var returnpath = window.location.pathname.replace("/Eros_blog/", "").replace(".xhtml", "") + window.location.search;
+				document.getElementById("originalUrl").value = returnpath;
+			}
+		</script>
+	</h:head>
+	<h:body onload="setTitle();">
+		<h:form id="blogForm" prependId="false">
+			<h:outputStylesheet library="css" name="#{blogBean.init}"
+				target="head" />
+			<center>
+				<table class="loginTable">
+					<tr valign="top">
+						<td align="left"><h:outputText value="-- Eros blog --"
+								styleClass="erosTitle" /> <h:inputHidden id="originalUrl"
+								value="#{loginBean.originalUrl}" /></td>
+						<h:panelGroup rendered="#{!blogBean.hadLogin}">
+							<td align="right"><h:commandLink value="登入" action="index"
+									onclick="getUrl();">
+									<f:param name="faces-redirect" value="true" />
+								</h:commandLink> &#160; <h:link value="註冊帳號" outcome="user_account">
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:link value="首頁" outcome="index">
+									<f:param name="faces-redirect" value="true" />
+								</h:link>
+							</td>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{blogBean.hadLogin}">
+							<td align="right"><h:outputText
+									value="使用者: #{blogBean.browseUserId}" /> &#160; <h:link
+									value="部落格" outcome="blog">
+									<f:param name="author" value="#{blogBean.browseUserId}" />
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:commandLink value="登出" action="index"
+									onclick="getUrl();">
+									<f:param name="faces-redirect" value="true" />
+								</h:commandLink> &#160; <h:link value="修改帳號" outcome="user_account">
+									<f:param name="faces-redirect" value="true" />
+								</h:link> &#160; <h:link value="首頁" outcome="index">
+									<f:param name="faces-redirect" value="true" />
+								</h:link>
+							</td>
+						</h:panelGroup>
+					</tr>
+				</table>
+				<table class="blogTale">
+					<tr valign="top">
+						<td colspan="2" align="center"><p:messages id="msgs" showDetail="true" /></td>
+					</tr>
+					<h:panelGroup rendered="#{blogBean.hasUser}">
+						<tr valign="top">
+							<td colspan="2" align="center"><h:graphicImage
+									value="#{blogBean.blogUser.blogPic}"
+									rendered="#{blogBean.hasBlogPic}" styleClass="blogPic" /> <h:graphicImage
+									library="img" name="eros_banner.jpg"
+									rendered="#{!blogBean.hasBlogPic}" styleClass="blogPic" />
+							</td>
+						</tr>
+						<tr valign="top">
+							<td>
+								<table class="browseTable">
+									<tr>
+										<td colspan="2"><br />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2" align="left"><h:outputText id="blogTitle"
+												value="#{blogBean.blogUser.blogTitle}" styleClass="bigTitle" />
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2"><br />
+											<hr /> <br />
+										</td>
+									</tr>
+									<tr>
+										<td align="left"><h:selectOneRadio id="viewMode"
+												value="#{blogBean.viewMode}"
+												valueChangeListener="#{blogBean.setViewMode}">
+												<f:selectItem itemLabel="主要文章" itemValue="0" />
+												<f:selectItem itemLabel="回覆文章" itemValue="1" />
+												<f:selectItem itemLabel="顯示全部" itemValue="2" />
+												<f:ajax event="valueChange"
+													render="viewMode contentList contentPaging searchContentTitle queryContentCount msgs"
+													execute="@this" />
+											</h:selectOneRadio>
+										</td>
+										<td align="right"><h:outputText value="搜尋標題: " /> <h:inputText
+												id="searchContentTitle" value="#{blogBean.searchTitle}"
+												size="15" maxlength="50" /> &#160; <h:commandButton
+												value="送出" action="#{blogBean.searchContents}">
+												<f:ajax
+													render="viewMode contentList contentPaging searchContentTitle queryContentCount msgs"
+													execute="searchContentTitle" />
+											</h:commandButton><br />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td></td>
+										<td align="right"><h:outputText id="queryContentCount"
+												value="顯示文章總數: #{blogBean.totalRows}"
+												styleClass="smallerTextGrey" />
+										</td>
+									</tr>
+									<h:panelGroup id="contentPaging">
+										<tr valign="top">
+											<td align="left"><h:commandLink value="上一頁"
+													action="#{blogBean.contentPrePage}"
+													rendered="#{blogBean.canPrePage}">
+													<f:ajax render="contentList contentPaging" />
+												</h:commandLink>
+											</td>
+											<td align="right"><h:commandLink value="下一頁"
+													action="#{blogBean.contentNextPage}"
+													rendered="#{blogBean.canNextPage}">
+													<f:ajax render="contentList contentPaging" />
+												</h:commandLink>
+											</td>
+										</tr>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{blogBean.editable}">
+										<tr valign="top">
+											<td colspan="2" align="left"><h:commandButton
+													value="寫新文章" action="#{blogBean.newContent}" /></td>
+										</tr>
+									</h:panelGroup>
+									<tr valign="top">
+										<td align="left"><br /></td>
+									</tr>
+									<tr valign="top">
+										<td colspan="2" align="left"><h:dataTable
+												id="contentList" value="#{blogBean.contents}" var="item"
+												styleClass="listTable">
+												<h:column>
+													<table class="contentTable">
+														<tr>
+															<td align="left"><h:link value="#{item.title}"
+																	styleClass="smallTitle" outcome="read">
+																	<f:param name="content" value="#{item.id}" />
+																	<f:param name="faces-redirect" value="true" />
+																</h:link></td>
+														</tr>
+														<tr>
+															<td align="right"><h:outputText value="發表於: "
+																	styleClass="smallerText" /> <h:outputText
+																	value="#{item.date}">
+																	<f:convertDateTime pattern="yyyy/MM/d hh:mm:ss"
+																		styleClass="smallerText"
+																		timeZone="#{loginBean.timeZoneData}" />
+																</h:outputText> &#160; <h:outputText value="回覆 (#{item.replyNum})"
+																	styleClass="smallerText" /> <h:panelGroup
+																	rendered="#{blogBean.editable}">
+																	&#160; <h:commandButton value="編輯"
+																		action="#{blogBean.editContent}">
+																		<f:setPropertyActionListener
+																			target="#{blogBean.selectedContentId}"
+																			value="#{item.id}" />
+																	</h:commandButton>
+																	<h:commandButton value="刪除"
+																		action="#{blogBean.deleteContent}"
+																		onclick="return deleteContent();">
+																		<f:setPropertyActionListener
+																			target="#{blogBean.selectedContentId}"
+																			value="#{item.id}" />
+																	</h:commandButton>
+																</h:panelGroup></td>
+														</tr>
+													</table>
+												</h:column>
+											</h:dataTable></td>
+									</tr>
+								</table>
+							</td>
+							<td>
+								<table class="sideTable">
+									<tr>
+										<td><br />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td align="center"><h:graphicImage
+												value="#{blogBean.blogUser.pic}"
+												rendered="#{blogBean.hasUserPic}" styleClass="userPic" /> <h:graphicImage
+												library="img" name="eros_user.jpg"
+												rendered="#{!blogBean.hasUserPic}" styleClass="userPic" />
+										</td>
+									</tr>
+									<tr>
+										<td><br /></td>
+									</tr>
+									<tr valign="top">
+										<td align="center"><h:outputText
+												value="#{blogBean.blogUser.name}" styleClass="userNameText" />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td align="center"><h:outputText
+												value="(#{blogBean.blogUser.id})" />
+										</td>
+									</tr>
+									<tr>
+										<td><br />
+											<hr /> <br /></td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:outputText
+												value="#{blogBean.blogUser.description}" escape="false" />
+										</td>
+									</tr>
+									<tr>
+										<td><br /></td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:outputText
+												value="文章總數: #{blogBean.authorTotalContentCount}"
+												styleClass="smallerTextGrey" />
+										</td>
+									</tr>
+									<tr valign="top">
+										<td align="left"><h:outputText value="註冊時間: "
+												styleClass="smallerTextGrey" /> <h:outputText
+												value="#{blogBean.blogUser.accountDate}"
+												styleClass="smallerTextGrey">
+												<f:convertDateTime pattern="yyyy/MM/d"
+													timeZone="#{loginBean.timeZoneData}" />
+											</h:outputText>
+										</td>
+									</tr>
+									<tr>
+										<td><br /></td>
+									</tr>
+									<tr valign="top">
+										<td align="center"><h:outputLink
+												value="RSS?author=#{blogBean.blogUser.id}" target="_blank">
+												<h:graphicImage library="img" name="rss.png" />
+											</h:outputLink>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</h:panelGroup>
+				</table>
+			</center>
+		</h:form>
+	</h:body>
+</f:view>
+</html>
