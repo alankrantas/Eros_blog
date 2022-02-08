@@ -8,7 +8,7 @@ Eros 是希臘神話的愛神，也是最早發現的近地小行星 (433 Eros) 
 
 本專案整合了 JavaServer Faces (JSF) 2 和 Spring 3 DAO 的使用，而這兩個都盡量使用 annotation 的方式來設定。
 
-> 註：本專案原置於 [Google Code](https://code.google.com/archive/p/eros-java-blog/) 但已遭刪除。2011 年秋，我第一份工作 (研發替代役) 即將結束時，決定拿當時自學的技術寫一個自己的 MVC 架構專案，而這就是那時的成果。當時我的公司只用過 JSF 1，而且共用的 XML 設定檔常常很難管理。那時我發現使用 annotation 可以大幅減少對 XML 的依賴。當然單體式 Java 網站如今已經褪流行，因此這個 repo 只是要作為紀念而已。
+> 註：本專案原置於 [Google Code](https://code.google.com/archive/p/eros-java-blog/) 但已遭刪除。2011 年秋，我第一份工作 (研發替代役) 即將結束時，決定拿當時自學的技術寫一個自己的 MVC 架構專案，而這就是那時的成果。當時我的公司只用 JSF 1，我自己研究了 JSF 2 (本來要用於一個案子但公司標案失敗)。這類 Java 專案的共用 XML 設定檔在版本控管時經常會變成開發瓶頸，而我發現使用 annotation 可以大幅減少對 XML 的依賴。當然如今單體式 Java 網站已經沒那麼流行，這個 repo 也只是要作為紀念而已。
 
 ### 功能
 
@@ -35,7 +35,7 @@ Eros 是希臘神話的愛神，也是最早發現的近地小行星 (433 Eros) 
 ### CSS
 
 * 使用者註冊之後就可以上傳使用者圖像、部落格橫幅和 CSS 檔 (可以下載預設檔當範本來修改)
-* 我個人推薦的顏色調配工具是這兩個網站 http://www.degraeve.com/color-palette/ http://colorschemedesigner.com/
+* 我個人推薦的顏色調配工具是這兩個網站：http://www.degraeve.com/color-palette/ http://colorschemedesigner.com/
 
 ### 未來考慮功能
 
